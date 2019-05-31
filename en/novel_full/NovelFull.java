@@ -1,9 +1,9 @@
 package com.github.Doomsdayrs.api.novelreader_core.extensions.en.novel_full;
 
-import com.github.Doomsdayrs.api.novelreader_core.services.Novel;
-import com.github.Doomsdayrs.api.novelreader_core.services.NovelChapter;
-import com.github.Doomsdayrs.api.novelreader_core.services.NovelPage;
-import com.github.Doomsdayrs.api.novelreader_core.services.ScrapeFormat;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelChapter;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.jsoup.nodes.Document;
@@ -34,22 +34,31 @@ import java.util.List;
  */
 public class NovelFull extends ScrapeFormat {
     private final String baseURL = "http://novelfull.com";
+    private final int ID;
 
-    public NovelFull() {
+    public NovelFull(int ID) {
+        this.ID = ID;
     }
 
-    public NovelFull(Request.Builder builder) {
+    public NovelFull(Request.Builder builder, int ID) {
         super(builder);
+        this.ID = ID;
     }
 
-    public NovelFull(OkHttpClient client) {
+    public NovelFull(OkHttpClient client, int ID) {
         super(client);
+        this.ID = ID;
     }
 
-    public NovelFull(Request.Builder builder, OkHttpClient client) {
+    public NovelFull(Request.Builder builder, OkHttpClient client, int ID) {
         super(builder, client);
+        this.ID = ID;
     }
 
+    @Override
+    public int getID() {
+        return ID;
+    }
 
     private void stripListing(Elements data, Novel novel) {
         for (int y = 0; y < data.size(); y++) {
