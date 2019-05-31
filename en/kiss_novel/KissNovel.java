@@ -3,6 +3,9 @@ package com.github.Doomsdayrs.api.novelreader_core.extensions.en.kiss_novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.Novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.NovelPage;
 import com.github.Doomsdayrs.api.novelreader_core.services.ScrapeFormat;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 
 import java.util.List;
 //TODO, complete this
@@ -29,6 +32,10 @@ public class KissNovel extends ScrapeFormat {
     private final String baseURL = "https://kiss-novel.com";
 
 
+    @Override
+    public int getID() {
+        return 0;
+    }
 
     public boolean isIncrementingChapterList() {
         return false;

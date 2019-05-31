@@ -3,6 +3,9 @@ package com.github.Doomsdayrs.api.novelreader_core.extensions.en.novel_updates;
 import com.github.Doomsdayrs.api.novelreader_core.services.Novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.NovelPage;
 import com.github.Doomsdayrs.api.novelreader_core.services.ScrapeFormat;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.jsoup.nodes.Document;
@@ -50,6 +53,11 @@ public class NovelUpdates extends ScrapeFormat {
 
     public NovelUpdates(Request.Builder builder, OkHttpClient client) {
         super(builder, client);
+    }
+
+    @Override
+    public int getID() {
+        return 0;
     }
 
     public boolean isIncrementingChapterList() {
