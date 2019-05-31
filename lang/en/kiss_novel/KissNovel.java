@@ -1,4 +1,4 @@
-package com.github.Doomsdayrs.api.novelreader_core.extensions.en.kiss_novel;
+package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.kiss_novel;
 
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
