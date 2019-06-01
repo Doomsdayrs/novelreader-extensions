@@ -34,30 +34,27 @@ import java.util.List;
  */
 public class NovelFull extends ScrapeFormat {
     private final String baseURL = "http://novelfull.com";
-    private final int ID;
 
-    public NovelFull(int ID) {
-        this.ID = ID;
+    public NovelFull(int id) {
+        super(id);
     }
 
-    public NovelFull(Request.Builder builder, int ID) {
-        super(builder);
-        this.ID = ID;
+    public NovelFull(int id, Request.Builder builder) {
+        super(id, builder);
     }
 
-    public NovelFull(OkHttpClient client, int ID) {
-        super(client);
-        this.ID = ID;
+    public NovelFull(int id, OkHttpClient client) {
+        super(id, client);
     }
 
-    public NovelFull(Request.Builder builder, OkHttpClient client, int ID) {
-        super(builder, client);
-        this.ID = ID;
+    public NovelFull(int id, Request.Builder builder, OkHttpClient client) {
+        super(id, builder, client);
     }
+
 
     @Override
-    public int getID() {
-        return ID;
+    public String getImageURL() {
+        return null;
     }
 
     private void stripListing(Elements data, Novel novel) {

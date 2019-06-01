@@ -37,24 +37,31 @@ import java.util.List;
 public class NovelUpdates extends ScrapeFormat {
     private final String baseURL = "https://www.novelupdates.com";
 
-    public NovelUpdates() {
+    public NovelUpdates(int id) {
+        super(id);
     }
 
-    public NovelUpdates(Request.Builder builder) {
-        super(builder);
+    public NovelUpdates(int id, Request.Builder builder) {
+        super(id, builder);
     }
 
-    public NovelUpdates(OkHttpClient client) {
-        super(client);
+    public NovelUpdates(int id, OkHttpClient client) {
+        super(id, client);
     }
 
-    public NovelUpdates(Request.Builder builder, OkHttpClient client) {
-        super(builder, client);
+    public NovelUpdates(int id, Request.Builder builder, OkHttpClient client) {
+        super(id, builder, client);
     }
+
 
     @Override
     public int getID() {
         return 0;
+    }
+
+    @Override
+    public String getImageURL() {
+        return null;
     }
 
     public boolean isIncrementingChapterList() {
