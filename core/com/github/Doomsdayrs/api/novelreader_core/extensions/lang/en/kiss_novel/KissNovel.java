@@ -53,6 +53,11 @@ public class KissNovel extends ScrapeFormat {
     }
 
     @Override
+    public String getName() {
+        return "KissNovel";
+    }
+
+    @Override
     public String getImageURL() {
         return null;
     }

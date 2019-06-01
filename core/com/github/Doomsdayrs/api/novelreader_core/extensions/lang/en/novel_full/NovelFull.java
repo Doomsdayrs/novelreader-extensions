@@ -51,6 +51,11 @@ public class NovelFull extends ScrapeFormat {
         super(id, builder, client);
     }
 
+    @Override
+    public String getName() {
+        return "NovelFull";
+    }
+
 
     @Override
     public String getImageURL() {

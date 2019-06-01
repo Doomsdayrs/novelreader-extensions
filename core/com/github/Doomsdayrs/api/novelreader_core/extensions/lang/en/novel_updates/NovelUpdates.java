@@ -60,6 +60,11 @@ public class NovelUpdates extends ScrapeFormat {
     }
 
     @Override
+    public String getName() {
+        return "NovelUpdates";
+    }
+
+    @Override
     public String getImageURL() {
         return null;
     }
