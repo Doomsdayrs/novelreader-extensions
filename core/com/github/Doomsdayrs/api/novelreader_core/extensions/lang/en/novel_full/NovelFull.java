@@ -109,6 +109,10 @@ public class NovelFull extends ScrapeFormat {
         Document document = docFromURL(URL);
         NovelPage novelPage = new NovelPage();
 
+        //Sets image
+        novelPage.imageURL = document.selectFirst("div.book").selectFirst("img").attr("src");
+
+
         //Sets description
         {
             Element titleDescription = document.selectFirst("div.col-xs-12.col-sm-8.col-md-8.desc");
