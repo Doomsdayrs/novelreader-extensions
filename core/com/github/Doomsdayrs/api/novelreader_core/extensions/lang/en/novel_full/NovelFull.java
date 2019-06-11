@@ -92,6 +92,8 @@ public class NovelFull extends ScrapeFormat {
     }
 
     public String getNovelPassage(String URL) throws IOException {
+        if(!URL.contains(baseURL))
+            URL = baseURL+URL;
         Document document = docFromURL(URL);
         Elements paragraphs = document.select("div.chapter-c").select("p");
         StringBuilder stringBuilder = new StringBuilder();
@@ -102,10 +104,16 @@ public class NovelFull extends ScrapeFormat {
     }
 
     public NovelPage parseNovel(String URL) throws IOException {
+        if(!URL.contains(baseURL))
+            URL = baseURL+URL;
         return this.parseNovel(URL, 1);
     }
 
     public NovelPage parseNovel(String URL, int increment) throws IOException {
+        if(!URL.contains(baseURL))
+            URL = baseURL+URL;
+        if (increment>1)
+            URL = URL + "?page="+increment;
         Document document = docFromURL(URL);
         NovelPage novelPage = new NovelPage();
 
@@ -160,6 +168,8 @@ public class NovelFull extends ScrapeFormat {
     }
 
     public List<Novel> parseLatest(String URL) throws IOException {
+        if(!URL.contains(baseURL))
+            URL = baseURL+URL;
         List<Novel> novels = new ArrayList<>();
         Document document = docFromURL(URL);
         Elements divMAIN = document.select("div.container");
