@@ -1,4 +1,4 @@
-package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.exiled_rebels_scanlations;
+package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.wuxia_world;
 
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
@@ -8,6 +8,7 @@ import okhttp3.Request;
 
 import java.io.IOException;
 import java.util.List;
+
 /**
  * This file is part of novelreader-extensions.
  * novelreader-extensions is free software: you can redistribute it and/or modify
@@ -26,22 +27,22 @@ import java.util.List;
  *
  * @author github.com/doomsdayrs
  */
-//TODO
+//TODO, Requires post requests
 @Deprecated
-public class ExiledRebelScanlations extends ScrapeFormat {
-    public ExiledRebelScanlations(int id) {
+public class WuxiaWorld extends ScrapeFormat {
+    public WuxiaWorld(int id) {
         super(id);
     }
 
-    public ExiledRebelScanlations(int id, Request.Builder builder) {
+    public WuxiaWorld(int id, Request.Builder builder) {
         super(id, builder);
     }
 
-    public ExiledRebelScanlations(int id, OkHttpClient client) {
+    public WuxiaWorld(int id, OkHttpClient client) {
         super(id, client);
     }
 
-    public ExiledRebelScanlations(int id, Request.Builder builder, OkHttpClient client) {
+    public WuxiaWorld(int id, Request.Builder builder, OkHttpClient client) {
         super(id, builder, client);
     }
 

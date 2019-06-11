@@ -1,4 +1,4 @@
-package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.exiled_rebels_scanlations;
+package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.lnmtl;
 
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
@@ -8,9 +8,10 @@ import okhttp3.Request;
 
 import java.io.IOException;
 import java.util.List;
+
 /**
- * This file is part of novelreader-extensions.
- * novelreader-extensions is free software: you can redistribute it and/or modify
+ * This file is part of com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.lnmtl.
+ * com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.lnmtl is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -19,29 +20,31 @@ import java.util.List;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with novelreader-extensions.  If not, see <https://www.gnu.org/licenses/>.
+ * along with com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.lnmtl.  If not, see <https://www.gnu.org/licenses/>.
  * ====================================================================
- * novelreader-extensions
- * 11 / June / 2019
+ * com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.lnmtl
+ * 11 / 06 / 2019
  *
  * @author github.com/doomsdayrs
  */
 //TODO
 @Deprecated
-public class ExiledRebelScanlations extends ScrapeFormat {
-    public ExiledRebelScanlations(int id) {
+public class Lnmtl extends ScrapeFormat {
+    private final String baseURL = "https://lnmtl.com";
+
+    public Lnmtl(int id) {
         super(id);
     }
 
-    public ExiledRebelScanlations(int id, Request.Builder builder) {
+    public Lnmtl(int id, Request.Builder builder) {
         super(id, builder);
     }
 
-    public ExiledRebelScanlations(int id, OkHttpClient client) {
+    public Lnmtl(int id, OkHttpClient client) {
         super(id, client);
     }
 
-    public ExiledRebelScanlations(int id, Request.Builder builder, OkHttpClient client) {
+    public Lnmtl(int id, Request.Builder builder, OkHttpClient client) {
         super(id, builder, client);
     }
 
@@ -57,7 +60,7 @@ public class ExiledRebelScanlations extends ScrapeFormat {
 
     @Override
     public boolean isIncrementingChapterList() {
-        return false;
+        return true;
     }
 
     @Override
@@ -77,6 +80,7 @@ public class ExiledRebelScanlations extends ScrapeFormat {
 
     @Override
     public String getLatestURL(int i) {
+        //https://lnmtl.com/novel?orderBy=date&order=asc&filter=ongoing&page=
         return null;
     }
 
