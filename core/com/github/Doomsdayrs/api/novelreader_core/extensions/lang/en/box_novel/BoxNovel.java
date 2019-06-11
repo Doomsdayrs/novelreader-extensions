@@ -2,12 +2,18 @@ package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.box_novel;
 
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelChapter;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
 /**
  * This file is part of novelreader-extensions.
  * novelreader-extensions is free software: you can redistribute it and/or modify
@@ -27,8 +33,9 @@ import java.util.List;
  * @author github.com/doomsdayrs
  */
 //TODO
-@Deprecated
 public class BoxNovel extends ScrapeFormat {
+    private final String baseURL = "https://boxnovel.com";
+
     public BoxNovel(int id) {
         super(id);
     }
@@ -47,12 +54,12 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public String getName() {
-        return null;
+        return "BoxNovel";
     }
 
     @Override
     public String getImageURL() {
-        return null;
+        return "https://boxnovel.com/wp-content/uploads/2018/04/BoxNovel-1.png";
     }
 
     @Override
@@ -62,31 +69,89 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public String getNovelPassage(String s) throws IOException {
-        return null;
+        if (!s.contains(baseURL))
+            s = baseURL + s;
+        Elements paragraphs = docFromURL(s).select("div.text-left");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Element element : paragraphs) {
+            stringBuilder.append(element.toString());
+        }
+
+        return stringBuilder.toString().replaceAll("<p>", "").replaceAll("</p>", "").replaceAll("<br>", "\n");
     }
 
     @Override
     public NovelPage parseNovel(String s) throws IOException {
-        return null;
+        if (!s.contains(baseURL))
+            s = baseURL + s;
+        NovelPage novelPage = new NovelPage();
+        Document document = docFromURL(s);
+        novelPage.imageURL = document.selectFirst("img.img-responsive").attr("src");
+        novelPage.title = document.selectFirst("h3").text();
+        novelPage.description = document.selectFirst("p").text();
+        novelPage.novelChapters = new ArrayList<>();
+        Elements elements = document.select("li.wp-manga-chapter");
+        for (Element element : elements) {
+            NovelChapter novelChapter = new NovelChapter();
+            novelChapter.link = element.selectFirst("a").attr("href");
+            novelChapter.chapterNum = element.selectFirst("a").text();
+            novelChapter.release = element.selectFirst("i").text();
+            novelPage.novelChapters.add(novelChapter);
+        }
+
+
+        return novelPage;
     }
 
     @Override
     public NovelPage parseNovel(String s, int i) throws IOException {
-        return null;
+        return parseNovel(s);
     }
 
     @Override
     public String getLatestURL(int i) {
-        return null;
+        return baseURL + "/novel/page/" + i + "/?m_orderby=latest";
     }
 
     @Override
     public List<Novel> parseLatest(String s) throws IOException {
-        return null;
+        if (!s.contains(baseURL))
+            s = baseURL + s;
+        List<Novel> novels = new ArrayList<>();
+        Document document = docFromURL(s);
+        Elements novelsHTML = document.select("div.col-xs-12.col-md-6");
+        for (Element novelHTML : novelsHTML) {
+            Novel novel = new Novel();
+            Element data = novelHTML.selectFirst("a");
+            novel.title = data.attr("title");
+            novel.link = data.attr("href");
+            novel.imageURL = data.selectFirst("img").attr("src");
+            novels.add(novel);
+        }
+        return novels;
     }
 
     @Override
     public List<Novel> search(String s) throws IOException {
-        return null;
+        s = s.replaceAll("\\+", "%2");
+        s = s.replaceAll(" ", "\\+");
+        //Turns query into a URL
+        s = baseURL + "/?s=" + s + "&post_type=wp-manga";
+
+        List<Novel> novels = new ArrayList<>();
+        Document document = docFromURL(s);
+        Elements novelsHTML = document.select("div.c-tabs-item__content");
+
+        for (Element novelHTML : novelsHTML) {
+            Novel novel = new Novel();
+            Element data = novelHTML.selectFirst("a");
+            novel.title = data.attr("title");
+            novel.link = data.attr("href");
+            novel.imageURL = data.selectFirst("img").attr("src");
+            novels.add(novel);
+        }
+
+
+        return novels;
     }
 }

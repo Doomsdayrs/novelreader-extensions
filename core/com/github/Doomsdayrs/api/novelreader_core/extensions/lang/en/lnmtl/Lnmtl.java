@@ -5,8 +5,12 @@ import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,9 +62,10 @@ public class Lnmtl extends ScrapeFormat {
         return null;
     }
 
+
     @Override
     public boolean isIncrementingChapterList() {
-        return true;
+        return false;
     }
 
     @Override
@@ -78,15 +83,30 @@ public class Lnmtl extends ScrapeFormat {
         return null;
     }
 
+    /**
+     * @param i Ignored, This site does not have an incrementation
+     * @return baseURL
+     */
     @Override
     public String getLatestURL(int i) {
-        //https://lnmtl.com/novel?orderBy=date&order=asc&filter=ongoing&page=
-        return null;
+        return baseURL;
     }
 
     @Override
     public List<Novel> parseLatest(String s) throws IOException {
-        return null;
+        if (!s.contains(baseURL))
+            s = baseURL + s;
+        List<Novel> novels = new ArrayList<>();
+        Document document = docFromURL(s);
+        Elements elements = document.select("div.panel.panel-default.panel-chapter");
+        for (Element element : elements) {
+            Novel novel = new Novel();
+            Element linkTitle = element.selectFirst("a");
+            novel.title = linkTitle.text();
+            novel.link = linkTitle.attr("href");
+            novels.add(novel);
+        }
+        return novels;
     }
 
     @Override
