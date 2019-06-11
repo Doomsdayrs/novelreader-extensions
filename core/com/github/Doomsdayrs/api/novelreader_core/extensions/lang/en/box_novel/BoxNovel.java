@@ -69,8 +69,7 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public String getNovelPassage(String s) throws IOException {
-        if (!s.contains(baseURL))
-            s = baseURL + s;
+        s = verify(baseURL,s);
         Elements paragraphs = docFromURL(s).select("div.text-left");
         StringBuilder stringBuilder = new StringBuilder();
         for (Element element : paragraphs) {
@@ -82,8 +81,7 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public NovelPage parseNovel(String s) throws IOException {
-        if (!s.contains(baseURL))
-            s = baseURL + s;
+        s = verify(baseURL,s);
         NovelPage novelPage = new NovelPage();
         Document document = docFromURL(s);
         novelPage.imageURL = document.selectFirst("img.img-responsive").attr("src");
@@ -115,8 +113,7 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public List<Novel> parseLatest(String s) throws IOException {
-        if (!s.contains(baseURL))
-            s = baseURL + s;
+        s = verify(baseURL,s);
         List<Novel> novels = new ArrayList<>();
         Document document = docFromURL(s);
         Elements novelsHTML = document.select("div.col-xs-12.col-md-6");
