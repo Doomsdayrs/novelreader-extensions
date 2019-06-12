@@ -84,7 +84,7 @@ public class BoxNovel extends ScrapeFormat {
         s = verify(baseURL,s);
         NovelPage novelPage = new NovelPage();
         Document document = docFromURL(s);
-        novelPage.imageURL = document.selectFirst("img.img-responsive").attr("src");
+        novelPage.imageURL = document.selectFirst("div.summary_image").selectFirst("img.img-responsive").attr("src");
         novelPage.title = document.selectFirst("h3").text();
         novelPage.description = document.selectFirst("p").text();
         novelPage.novelChapters = new ArrayList<>();

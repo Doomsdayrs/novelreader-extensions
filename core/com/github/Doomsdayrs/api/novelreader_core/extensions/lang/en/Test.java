@@ -1,5 +1,6 @@
 package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en;
 
+import com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.box_novel.BoxNovel;
 import com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.novel_full.NovelFull;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.Formatter;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 class Test {
     public static void main(String[] args) throws IOException {
-        Formatter formatter = new NovelFull(1);
+        Formatter formatter = new BoxNovel(1);
         List<Novel> novels = formatter.search("overlord");
         NovelPage novelPage = formatter.parseNovel(novels.get(0).link, 1);
         System.out.println(novelPage);
