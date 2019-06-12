@@ -3,6 +3,7 @@ package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.novel_full
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelChapter;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelGenre;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -92,7 +93,7 @@ public class NovelFull extends ScrapeFormat {
     }
 
     public String getNovelPassage(String URL) throws IOException {
-        URL = verify(baseURL,URL);
+        URL = verify(baseURL, URL);
         Document document = docFromURL(URL);
         Elements paragraphs = document.select("div.chapter-c").select("p");
         StringBuilder stringBuilder = new StringBuilder();
@@ -103,14 +104,14 @@ public class NovelFull extends ScrapeFormat {
     }
 
     public NovelPage parseNovel(String URL) throws IOException {
-        URL = verify(baseURL,URL);
+        URL = verify(baseURL, URL);
         return this.parseNovel(URL, 1);
     }
 
     public NovelPage parseNovel(String URL, int increment) throws IOException {
-        URL = verify(baseURL,URL);
-        if (increment>1)
-            URL = URL + "?page="+increment;
+        URL = verify(baseURL, URL);
+        if (increment > 1)
+            URL = URL + "?page=" + increment;
         Document document = docFromURL(URL);
         NovelPage novelPage = new NovelPage();
 
@@ -165,7 +166,7 @@ public class NovelFull extends ScrapeFormat {
     }
 
     public List<Novel> parseLatest(String URL) throws IOException {
-        URL = verify(baseURL,URL);
+        URL = verify(baseURL, URL);
         List<Novel> novels = new ArrayList<>();
         Document document = docFromURL(URL);
         Elements divMAIN = document.select("div.container");
@@ -203,6 +204,46 @@ public class NovelFull extends ScrapeFormat {
                 }
             }
         return novels;
+    }
+
+
+    @Override
+    public NovelGenre[] getGenres() {
+        String url = baseURL + "/genre/";
+        return new NovelGenre[]{
+                new NovelGenre("Shounen", true, url + "Shounen"),
+                new NovelGenre("Harem", true, url + "Harem"),
+                new NovelGenre("Comedy", true, url + "Comedy"),
+                new NovelGenre("Martial Arts", true, url + "Martial Arts"),
+                new NovelGenre("School Life", true, url + "School Life"),
+                new NovelGenre("Mystery", true, url + "Mystery"),
+                new NovelGenre("Shoujo", true, url + "Shoujo"),
+                new NovelGenre("Romance", true, url + "Romance"),
+                new NovelGenre("Sci-fi", true, url + "Sci-fi"),
+                new NovelGenre("Gender Bender", true, url + "Gender Bender"),
+                new NovelGenre("Mature", true, url + "Mature"),
+                new NovelGenre("Fantasy", true, url + "Fantasy"),
+                new NovelGenre("Horror", true, url + "Horror"),
+                new NovelGenre("Drama", true, url + "Drama"),
+                new NovelGenre("Tragedy", true, url + "Tragedy"),
+                new NovelGenre("Supernatural", true, url + "Supernatural"),
+                new NovelGenre("Ecchi", true, url + "Ecchi"),
+                new NovelGenre("Xuanhuan", true, url + "Xuanhuan"),
+                new NovelGenre("Adventure", true, url + "Adventure"),
+                new NovelGenre("Action", true, url + "Action"),
+                new NovelGenre("Psychological", true, url + "Psychological"),
+                new NovelGenre("Xianxia", true, url + "Xianxia"),
+                new NovelGenre("Wuxia", true, url + "Wuxia"),
+                new NovelGenre("Historical", true, url + "Historical"),
+                new NovelGenre("Slice of Life", true, url + "Slice of Life"),
+                new NovelGenre("Seinen", true, url + "Seinen"),
+                new NovelGenre("Lolicon", true, url + "Lolicon"),
+                new NovelGenre("Adult", true, url + "Adult"),
+                new NovelGenre("Josei", true, url + "Josei"),
+                new NovelGenre("Sports", true, url + "Sports"),
+                new NovelGenre("Smut", true, url + "Smut"),
+                new NovelGenre("Mecha", true, url + "Mecha"),
+        };
     }
 
 

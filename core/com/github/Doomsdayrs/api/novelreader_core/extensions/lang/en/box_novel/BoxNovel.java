@@ -3,6 +3,7 @@ package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.box_novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelChapter;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelGenre;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -150,5 +151,10 @@ public class BoxNovel extends ScrapeFormat {
 
 
         return novels;
+    }
+
+    @Override
+    public NovelGenre[] getGenres() {
+        return new NovelGenre[0];
     }
 }
