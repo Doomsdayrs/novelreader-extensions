@@ -2,6 +2,7 @@ package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.novel_onli
 
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelGenre;
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -91,5 +92,10 @@ public class NovelOnlineFree extends ScrapeFormat {
     @Override
     public List<Novel> search(String s) throws IOException {
         return null;
+    }
+
+    @Override
+    public NovelGenre[] getGenres() {
+        return new NovelGenre[0];
     }
 }
