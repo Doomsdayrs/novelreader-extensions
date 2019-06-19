@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -70,7 +71,7 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public String getNovelPassage(String s) throws IOException {
-        s = verify(baseURL,s);
+        s = verify(baseURL, s);
         Elements paragraphs = docFromURL(s).select("div.text-left");
         StringBuilder stringBuilder = new StringBuilder();
         for (Element element : paragraphs) {
@@ -82,7 +83,7 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public NovelPage parseNovel(String s) throws IOException {
-        s = verify(baseURL,s);
+        s = verify(baseURL, s);
         NovelPage novelPage = new NovelPage();
         Document document = docFromURL(s);
         novelPage.imageURL = document.selectFirst("div.summary_image").selectFirst("img.img-responsive").attr("src");
@@ -90,6 +91,7 @@ public class BoxNovel extends ScrapeFormat {
         novelPage.description = document.selectFirst("p").text();
         novelPage.novelChapters = new ArrayList<>();
         Elements elements = document.select("li.wp-manga-chapter");
+
         for (Element element : elements) {
             NovelChapter novelChapter = new NovelChapter();
             novelChapter.link = element.selectFirst("a").attr("href");
@@ -97,7 +99,7 @@ public class BoxNovel extends ScrapeFormat {
             novelChapter.release = element.selectFirst("i").text();
             novelPage.novelChapters.add(novelChapter);
         }
-
+        Collections.reverse(novelPage.novelChapters);
 
         return novelPage;
     }
@@ -114,7 +116,7 @@ public class BoxNovel extends ScrapeFormat {
 
     @Override
     public List<Novel> parseLatest(String s) throws IOException {
-        s = verify(baseURL,s);
+        s = verify(baseURL, s);
         List<Novel> novels = new ArrayList<>();
         Document document = docFromURL(s);
         Elements novelsHTML = document.select("div.col-xs-12.col-md-6");
@@ -148,8 +150,6 @@ public class BoxNovel extends ScrapeFormat {
             novel.imageURL = data.selectFirst("img").attr("src");
             novels.add(novel);
         }
-
-
         return novels;
     }
 
