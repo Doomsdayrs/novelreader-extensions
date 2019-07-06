@@ -60,11 +60,6 @@ public class NovelOnlineFree extends ScrapeFormat {
     }
 
     @Override
-    public boolean isIncrementingChapterList() {
-        return false;
-    }
-
-    @Override
     public String getNovelPassage(String s) throws IOException {
         return null;
     }

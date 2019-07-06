@@ -65,11 +65,6 @@ public class BoxNovel extends ScrapeFormat {
     }
 
     @Override
-    public boolean isIncrementingChapterList() {
-        return false;
-    }
-
-    @Override
     public String getNovelPassage(String s) throws IOException {
         s = verify(baseURL, s);
         Elements paragraphs = docFromURL(s).select("div.text-left");

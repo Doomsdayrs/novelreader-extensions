@@ -63,9 +63,6 @@ public class KissNovel extends ScrapeFormat {
         return null;
     }
 
-    public boolean isIncrementingChapterList() {
-        return false;
-    }
 
     public String getNovelPassage(String responseBody) {
         return null;

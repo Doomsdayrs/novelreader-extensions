@@ -70,9 +70,6 @@ public class NovelUpdates extends ScrapeFormat {
         return null;
     }
 
-    public boolean isIncrementingChapterList() {
-        return false;
-    }
 
     public String getNovelPassage(String responseBody) throws IOException {
         Document document = docFromURL(responseBody);

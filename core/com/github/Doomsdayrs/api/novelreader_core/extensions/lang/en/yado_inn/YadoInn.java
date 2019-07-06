@@ -49,17 +49,12 @@ public class YadoInn extends ScrapeFormat {
 
     @Override
     public String getName() {
-        return null;
+        return "Yado inn";
     }
 
     @Override
     public String getImageURL() {
         return null;
-    }
-
-    @Override
-    public boolean isIncrementingChapterList() {
-        return false;
     }
 
     @Override

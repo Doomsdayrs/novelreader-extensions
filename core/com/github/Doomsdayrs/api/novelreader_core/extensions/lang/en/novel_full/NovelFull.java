@@ -38,18 +38,22 @@ public class NovelFull extends ScrapeFormat {
 
     public NovelFull(int id) {
         super(id);
+        super.isIncrementingChapterList(true);
     }
 
     public NovelFull(int id, Request.Builder builder) {
         super(id, builder);
+        super.isIncrementingChapterList(true);
     }
 
     public NovelFull(int id, OkHttpClient client) {
         super(id, client);
+        super.isIncrementingChapterList(true);
     }
 
     public NovelFull(int id, Request.Builder builder, OkHttpClient client) {
         super(id, builder, client);
+        super.isIncrementingChapterList(true);
     }
 
     @Override
@@ -86,11 +90,6 @@ public class NovelFull extends ScrapeFormat {
         }
     }
 
-    // Overriding methods
-
-    public boolean isIncrementingChapterList() {
-        return true;
-    }
 
     public String getNovelPassage(String URL) throws IOException {
         URL = verify(baseURL, URL);
@@ -118,6 +117,10 @@ public class NovelFull extends ScrapeFormat {
         //Sets image
         novelPage.imageURL = baseURL + document.selectFirst("div.book").selectFirst("img").attr("src");
 
+        String lastPageURL = document.selectFirst("ul.pagination.pagination-sm").selectFirst("li.last").select("a").attr("href");
+        lastPageURL = baseURL + lastPageURL;
+        lastPageURL = lastPageURL.substring(lastPageURL.indexOf("?page=")+6,lastPageURL.indexOf("&per-page="));
+        novelPage.maxChapterPage= Integer.parseInt(lastPageURL);
 
         //Sets description
         {

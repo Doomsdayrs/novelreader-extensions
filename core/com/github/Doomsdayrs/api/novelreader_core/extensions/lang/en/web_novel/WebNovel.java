@@ -56,10 +56,6 @@ public class WebNovel extends ScrapeFormat {
         return null;
     }
 
-    @Override
-    public boolean isIncrementingChapterList() {
-        return false;
-    }
 
     @Override
     public String getNovelPassage(String s) throws IOException {
