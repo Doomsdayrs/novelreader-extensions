@@ -118,10 +118,11 @@ public class NovelFull extends ScrapeFormat {
         novelPage.imageURL = baseURL + document.selectFirst("div.book").selectFirst("img").attr("src");
 
         String lastPageURL = document.selectFirst("ul.pagination.pagination-sm").selectFirst("li.last").select("a").attr("href");
-        lastPageURL = baseURL + lastPageURL;
-        lastPageURL = lastPageURL.substring(lastPageURL.indexOf("?page=")+6,lastPageURL.indexOf("&per-page="));
-        novelPage.maxChapterPage= Integer.parseInt(lastPageURL);
-
+        if (!lastPageURL.isEmpty()) {
+            lastPageURL = baseURL + lastPageURL;
+            lastPageURL = lastPageURL.substring(lastPageURL.indexOf("?page=") + 6, lastPageURL.indexOf("&per-page="));
+            novelPage.maxChapterPage = Integer.parseInt(lastPageURL);
+        } else novelPage.maxChapterPage = increment;
         //Sets description
         {
             Element titleDescription = document.selectFirst("div.col-xs-12.col-sm-8.col-md-8.desc");

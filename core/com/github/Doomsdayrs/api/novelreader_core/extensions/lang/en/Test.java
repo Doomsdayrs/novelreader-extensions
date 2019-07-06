@@ -17,6 +17,6 @@ class Test {
     public static void main(String[] args) throws IOException {
         Formatter formatter = new NovelFull(1);
         List<Novel> novels = formatter.search("Release that witch");
-        System.out.println(formatter.parseNovel(novels.get(0).link));
+        System.out.println(formatter.parseNovel(novels.get(0).link,30));
     }
 }
