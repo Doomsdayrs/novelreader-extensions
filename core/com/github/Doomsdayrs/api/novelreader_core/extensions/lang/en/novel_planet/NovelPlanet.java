@@ -9,6 +9,7 @@ import okhttp3.Request;
 
 import java.io.IOException;
 import java.util.List;
+
 /**
  * This file is part of novelreader-extensions.
  * novelreader-extensions is free software: you can redistribute it and/or modify
@@ -48,7 +49,7 @@ public class NovelPlanet extends ScrapeFormat {
 
     @Override
     public String getName() {
-        return null;
+        return "NovelPlanet";
     }
 
     @Override
