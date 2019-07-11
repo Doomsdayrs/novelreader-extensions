@@ -67,13 +67,16 @@ public class BoxNovel extends ScrapeFormat {
     @Override
     public String getNovelPassage(String s) throws IOException {
         s = verify(baseURL, s);
-        Elements paragraphs = docFromURL(s).select("div.text-left");
+        Elements paragraphs = docFromURL(s).select("div.text-left").select("p");
         StringBuilder stringBuilder = new StringBuilder();
-        for (Element element : paragraphs) {
-            stringBuilder.append(element.toString());
-        }
 
-        return stringBuilder.toString().replaceAll("<p>", "").replaceAll("</p>", "").replaceAll("<br>", "\n");
+        for (Element element : paragraphs)
+            stringBuilder.append(element.toString()).append("\n");
+
+        return stringBuilder
+                .toString()
+                .replaceAll("<p>", "")
+                .replaceAll("</p>", "");
     }
 
     @Override
