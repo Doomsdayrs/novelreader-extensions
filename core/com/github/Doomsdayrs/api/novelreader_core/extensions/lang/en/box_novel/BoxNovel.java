@@ -100,7 +100,6 @@ public class BoxNovel extends ScrapeFormat {
 
         {
             Elements elements = document.selectFirst("div.post-content").select("div.post-content_item");
-
             for (int x = 0; x < elements.size(); x++) {
                 Elements subElements;
                 switch (x) {
@@ -113,7 +112,7 @@ public class BoxNovel extends ScrapeFormat {
                     case 3://AUTHORS
                         subElements = elements.get(x).select("a");
                         String[] authors = new String[subElements.size()];
-                        for (int y = 0; x < subElements.size(); y++) {
+                        for (int y = 0; y < subElements.size(); y++) {
                             authors[y] = subElements.get(y).text();
                         }
                         novelPage.authors = authors;
@@ -121,7 +120,7 @@ public class BoxNovel extends ScrapeFormat {
                     case 4:
                         subElements = elements.get(x).select("a");
                         String[] artists = new String[subElements.size()];
-                        for (int y = 0; x < subElements.size(); y++) {
+                        for (int y = 0; y < subElements.size(); y++) {
                             artists[y] = subElements.get(y).text();
                         }
                         novelPage.artists = artists;
@@ -129,7 +128,7 @@ public class BoxNovel extends ScrapeFormat {
                     case 5:
                         subElements = elements.get(x).select("a");
                         String[] genres = new String[subElements.size()];
-                        for (int y = 0; x < subElements.size(); y++) {
+                        for (int y = 0; y < subElements.size(); y++) {
                             genres[y] = subElements.get(y).text();
                         }
                         novelPage.genres = genres;

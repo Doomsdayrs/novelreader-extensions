@@ -176,28 +176,30 @@ public class NovelFull extends ScrapeFormat {
 
         // Sets info Author, Genre, Source, Status
         {
-            Elements elements = document.selectFirst("div.info").select("div");
+            Elements elements = document.selectFirst("div.info").select("div.info").select("div");
             for (int x = 0; x < elements.size(); x++) {
                 Elements subelemets;
                 switch (x) {
                     case 0:
+                        break;
+                    case 1:
                         subelemets = elements.get(x).select("a");
                         String[] authors = new String[subelemets.size()];
                         for (int y = 0; y < subelemets.size(); y++)
                             authors[y] = subelemets.get(y).text();
                         novelPage.authors = authors;
                         break;
-                    case 1:
+                    case 2:
                         subelemets = elements.get(x).select("a");
                         String[] genres = new String[subelemets.size()];
                         for (int y = 0; y < subelemets.size(); y++)
                             genres[y] = subelemets.get(y).text();
                         novelPage.genres = genres;
                         break;
-                    case 2:
+                    case 3:
                         //Source
                         break;
-                    case 3:
+                    case 4:
                         String status = elements.get(x).select("a").text();
                         switch (status) {
                             case "Completed":
