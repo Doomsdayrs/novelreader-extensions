@@ -1,10 +1,7 @@
 package com.github.Doomsdayrs.api.novelreader_core.extensions.lang.en.novel_full;
 
 import com.github.Doomsdayrs.api.novelreader_core.services.core.dep.ScrapeFormat;
-import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.Novel;
-import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelChapter;
-import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelGenre;
-import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
+import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.jsoup.nodes.Document;
@@ -107,6 +104,19 @@ public class NovelFull extends ScrapeFormat {
         return this.parseNovel(URL, 1);
     }
 
+    /**
+     * TITLE:YES
+     * IMAGEURL: YES
+     * DESCRIPTION: YES
+     * GENRES: YES
+     * AUTHORS: YES
+     * STATUS: YES
+     * TAGS: NO
+     * ARTISTS: NO
+     * LANGUAGE: NO
+     * MAXCHAPTERPAGE: YES
+     * NOVELCHAPTERS: YES
+     */
     public NovelPage parseNovel(String URL, int increment) throws IOException {
         URL = verify(baseURL, URL);
         if (increment > 1)
@@ -117,13 +127,16 @@ public class NovelFull extends ScrapeFormat {
         //Sets image
         novelPage.imageURL = baseURL + document.selectFirst("div.book").selectFirst("img").attr("src");
 
-        String lastPageURL = document.selectFirst("ul.pagination.pagination-sm").selectFirst("li.last").select("a").attr("href");
-        if (!lastPageURL.isEmpty()) {
-            lastPageURL = baseURL + lastPageURL;
-            lastPageURL = lastPageURL.substring(lastPageURL.indexOf("?page=") + 6, lastPageURL.indexOf("&per-page="));
-            novelPage.maxChapterPage = Integer.parseInt(lastPageURL);
-        } else novelPage.maxChapterPage = increment;
-        //Sets description
+        // Gets max page
+        {
+            String lastPageURL = document.selectFirst("ul.pagination.pagination-sm").selectFirst("li.last").select("a").attr("href");
+            if (!lastPageURL.isEmpty()) {
+                lastPageURL = baseURL + lastPageURL;
+                lastPageURL = lastPageURL.substring(lastPageURL.indexOf("?page=") + 6, lastPageURL.indexOf("&per-page="));
+                novelPage.maxChapterPage = Integer.parseInt(lastPageURL);
+            } else novelPage.maxChapterPage = increment;
+        }
+        // Sets description
         {
             Element titleDescription = document.selectFirst("div.col-xs-12.col-sm-8.col-md-8.desc");
             novelPage.title = titleDescription.selectFirst("h3").text();
@@ -137,7 +150,7 @@ public class NovelFull extends ScrapeFormat {
             novelPage.description = stringBuilder.toString();
         }
 
-        //Formats the chapters
+        // Formats the chapters
         {
             List<NovelChapter> novelChapters = new ArrayList<>();
             Elements lists = document.select("ul.list-chapter");
@@ -161,7 +174,46 @@ public class NovelFull extends ScrapeFormat {
             novelPage.novelChapters = novelChapters;
         }
 
+        // Sets info Author, Genre, Source, Status
+        {
+            Elements elements = document.selectFirst("div.info").select("div");
+            for (int x = 0; x < elements.size(); x++) {
+                Elements subelemets;
+                switch (x) {
+                    case 0:
+                        subelemets = elements.get(x).select("a");
+                        String[] authors = new String[subelemets.size()];
+                        for (int y = 0; y < subelemets.size(); y++)
+                            authors[y] = subelemets.get(y).text();
+                        novelPage.authors = authors;
+                        break;
+                    case 1:
+                        subelemets = elements.get(x).select("a");
+                        String[] genres = new String[subelemets.size()];
+                        for (int y = 0; y < subelemets.size(); y++)
+                            genres[y] = subelemets.get(y).text();
+                        novelPage.genres = genres;
+                        break;
+                    case 2:
+                        //Source
+                        break;
+                    case 3:
+                        String status = elements.get(x).select("a").text();
+                        switch (status) {
+                            case "Completed":
+                                novelPage.status = Stati.COMPLETED;
+                                break;
+                            case "Ongoing":
+                                novelPage.status = Stati.PUBLISHING;
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                }
+            }
 
+        }
         return novelPage;
     }
 
