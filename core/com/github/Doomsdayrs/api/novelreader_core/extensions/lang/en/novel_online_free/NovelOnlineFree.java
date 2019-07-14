@@ -6,9 +6,14 @@ import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelGen
 import com.github.Doomsdayrs.api.novelreader_core.services.core.objects.NovelPage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
 /**
  * This file is part of novelreader-extensions.
  * novelreader-extensions is free software: you can redistribute it and/or modify
@@ -27,10 +32,10 @@ import java.util.List;
  *
  * @author github.com/doomsdayrs
  */
-//TODO New parser, Deprecated while uncompleted.
 @Deprecated
+// Reasoning for the above, needs to use multiple formatters to work, sites link each other
 public class NovelOnlineFree extends ScrapeFormat {
-    private final String baseURL = "http://novelfull.com";
+    private final String baseURL = "https://novelonlinefree.com";
 
     public NovelOnlineFree(int id) {
         super(id);
@@ -51,7 +56,7 @@ public class NovelOnlineFree extends ScrapeFormat {
 
     @Override
     public String getName() {
-        return null;
+        return "Novel online free";
     }
 
     @Override
@@ -61,7 +66,13 @@ public class NovelOnlineFree extends ScrapeFormat {
 
     @Override
     public String getNovelPassage(String s) throws IOException {
-        return null;
+        s = verify(baseURL, s);
+        Document document = docFromURL(s);
+        Elements elements = document.selectFirst("div.vung_doc").select("p");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Element element : elements)
+            stringBuilder.append(element.text()).append("\n");
+        return stringBuilder.toString();
     }
 
     @Override
@@ -76,17 +87,49 @@ public class NovelOnlineFree extends ScrapeFormat {
 
     @Override
     public String getLatestURL(int i) {
-        return null;
+        if (i <= 0)
+            i = 1;
+        return "https://novelonlinefree.com/novel_list?type=latest&category=all&state=all&page=" + i;
     }
 
     @Override
     public List<Novel> parseLatest(String s) throws IOException {
-        return null;
+        s = verify(baseURL, s);
+        Document document = docFromURL(s);
+        List<Novel> novels = new ArrayList<>();
+        Elements elements = document.select("div.update_item.list_category");
+        for (Element element : elements) {
+            Novel novel = new Novel();
+            {
+                Element e = element.selectFirst("h3.nowrap").selectFirst("a");
+                novel.title = e.attr("title");
+                novel.link = e.attr("href");
+            }
+            novel.imageURL = element.selectFirst("img").attr("src");
+            novels.add(novel);
+        }
+        return novels;
     }
 
     @Override
     public List<Novel> search(String s) throws IOException {
-        return null;
+        s = s.replaceAll(" ", "_");
+        s = baseURL + "/search_novels/" + s;
+        List<Novel> novels = new ArrayList<>();
+        Document document = docFromURL(s);
+        Elements elements = document.select("div.update_item.list_category");
+        for (Element element : elements) {
+            Novel novel = new Novel();
+            {
+                Element e = element.selectFirst("h3.nowrap").selectFirst("a");
+                novel.title = e.attr("title");
+                novel.link = e.attr("href");
+            }
+            novel.imageURL = element.selectFirst("img").attr("src");
+            novels.add(novel);
+        }
+
+        return novels;
     }
 
     @Override
