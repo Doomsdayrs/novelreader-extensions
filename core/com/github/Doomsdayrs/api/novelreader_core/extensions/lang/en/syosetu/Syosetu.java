@@ -68,12 +68,22 @@ public class Syosetu extends ScrapeFormat {
     public String getNovelPassage(String s) throws IOException {
         s = verify(passageURL, s);
         Document document = docFromURL(s);
-        Elements elements = document.selectFirst("div.novel_view").select("p");
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Element element : elements) {
-            stringBuilder.append(element.text()).append("\n");
+        Elements elements = document.select("div");
+        boolean found = false;
+        for (int x = 0; x < elements.size() && !found; x++)
+            if (elements.get(x).id().equals("novel_contents")) {
+                found = true;
+                elements = elements.get(x).select("p");
+            }
+
+        if (found) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Element element : elements) {
+                stringBuilder.append(element.text()).append("\n");
+            }
+            return stringBuilder.toString().replaceAll("<br>", "\n\n");
         }
-        return stringBuilder.toString().replaceAll("<br>", "\n\n");
+        return "INVALID PARSING, CONTACT DEVELOPERS";
     }
 
     /**
