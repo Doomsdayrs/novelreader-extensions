@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * This file is part of novelreader-extensions.
  * novelreader-extensions is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
