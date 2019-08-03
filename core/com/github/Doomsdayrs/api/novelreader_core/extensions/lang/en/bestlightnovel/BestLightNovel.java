@@ -30,6 +30,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -100,7 +101,7 @@ public class BestLightNovel extends ScrapeFormat {
         NovelPage novelPage = new NovelPage();
         // Image
         {
-            Element element = document.selectFirst("ul.truyen_info_left");
+            Element element = document.selectFirst("div.truyen_info_left");
             novelPage.imageURL = element.selectFirst("img").attr("src");
         }
         // Bulk data
@@ -159,12 +160,11 @@ public class BestLightNovel extends ScrapeFormat {
         }
         // Description
         {
-            Elements elements = document.selectFirst("div.truyen_if_wrap").select("div");
+            Elements elements = document.selectFirst("div.entry-header").select("div");
             for (Element div : elements) {
                 if (div.id().equals("noidungm")) {
                     String unformatted = div.text();
                     unformatted = unformatted.replaceAll("<br>", "\n");
-                    unformatted = unformatted.substring(unformatted.indexOf("</h2>", unformatted.length()));
                     novelPage.description = unformatted;
                 }
             }
@@ -188,9 +188,12 @@ public class BestLightNovel extends ScrapeFormat {
                             break;
                     }
                 }
+                novelChapters.add(novelChapter);
             }
+            Collections.reverse(novelChapters);
+            novelPage.novelChapters = novelChapters;
         }
-        return null;
+        return novelPage;
     }
 
     @Override
