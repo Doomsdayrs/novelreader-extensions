@@ -60,7 +60,7 @@ public class BestLightNovel extends ScrapeFormat {
 
     @Override
     public String getName() {
-        return "Novel online free";
+        return "BestLightNovel";
     }
 
     @Override
